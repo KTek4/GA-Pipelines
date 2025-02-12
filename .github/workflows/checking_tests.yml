@@ -1,4 +1,4 @@
-name: Checking Tests
+name: Feature Branch to Develop Branch Tests
 
 on:
   pull_request:
@@ -23,11 +23,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Run Seed
+        run: npm run seed
+
+      - name: Run Build
+        run: npm run build
+
       - name: Run vitest tests
         run: npm run test
 
       - name: Install Cypress
         run: npx cypress install
 
-      - name: Rub Cypress Component Tests
+      - name: Run Cypress Component Tests
         run: npx cypress run --component
