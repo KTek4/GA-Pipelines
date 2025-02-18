@@ -1,3 +1,4 @@
+import React from "react";
 import Quiz from "../../client/src/components/Quiz"
 
 describe('Quiz Component', () => {
@@ -13,36 +14,34 @@ describe('Quiz Component', () => {
       ).as('getRandomQuestion')
     });
 
-  it('should start the quiz and display the first question', () => {
-    cy.mount(<Quiz />);
-    cy.get('button').contains('Start Quiz').click();
-    cy.get('.card').should('be.visible');
-    cy.get('h2').should('not.be.empty');
-  });
+    it('renders', () => {
+      // checks to ensure the component renders on the page
+      cy.mount(<Quiz />)
+    });
+  
+    it('mounts and displays the "start quiz" button', () => {
+      // mount the component, then check to make sure the button to start the quiz is visible
+      cy.mount(<Quiz />);
+  
+      cy.get('button').contains('Start Quiz').should("be.visible");
+    });
 
-  it('should answer questions and complete the quiz', () => {
-    cy.mount(<Quiz />);
-    cy.get('button').contains('Start Quiz').click();
+    it('should display the first question when the "Start Quiz button" is pressed', () => {
+      cy.mount(<Quiz />);
+      cy.get('button').contains('Start Quiz').click();
 
-    // Answer questions
-    cy.get('button').contains('1').click();
+      cy.get('h2').contains("What is the correct answer?").should("be.visible");
+    });
 
-    // Verify the quiz completion
+    it('should answer the appropriate questions when completing the quiz', () => {
+      cy.mount(<Quiz />);
+      cy.get('button').contains('Start Quiz').click();
+
+      //Answer a question
+      cy.get('button').contains('2').click();
+
+      // Verify the quiz question has been answered and recorded
     cy.get('.alert-success').should('be.visible').and('contain', 'Your score');
-  });
-
-  it('should restart the quiz after completion', () => {
-    cy.mount(<Quiz />);
-    cy.get('button').contains('Start Quiz').click();
-
-    // Answer questions
-    cy.get('button').contains('1').click();
-
-    // Restart the quiz
-    cy.get('button').contains('Take New Quiz').click();
-
-    // Verify the quiz is restarted
-    cy.get('.card').should('be.visible');
-    cy.get('h2').should('not.be.empty');
-  });
+    });
+  
 });

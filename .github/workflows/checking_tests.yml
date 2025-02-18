@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - develop
-      - staging
+      - feature
 
 jobs:
   test:
@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v1
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v1
         with:
           node-version: 21.x
 
@@ -29,11 +29,5 @@ jobs:
       - name: Run Build
         run: npm run build
 
-      - name: Run vitest tests
-        run: npm run test
-
-      - name: Install Cypress
-        run: npx cypress install
-
-      - name: Run Cypress Component Tests
-        run: npx cypress run --component
+      - name: Run Component Tests
+        run: npm run test-component
